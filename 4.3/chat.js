@@ -1,4 +1,4 @@
-const server = require('net').createServer();
+const server = require("net").createServer();
 let counter = 0;
 let sockets = {};
 
@@ -7,17 +7,17 @@ function timestamp() {
   return `${now.getHours()}:${now.getMinutes()}`;
 }
 
-server.on('connection', socket => {
+server.on("connection", (socket) => {
   socket.id = counter++;
 
-  console.log('Client connected');
-  socket.write('Please type your name: ');
+  socket.write("Please type your name: ");
 
-  socket.on('data', data => {
+  socket.on("data", (data) => {
     if (!sockets[socket.id]) {
       socket.name = data.toString().trim();
       socket.write(`Welcome ${socket.name}!\n`);
       sockets[socket.id] = socket;
+      console.log(`Client ${socket.name} connected`);
       return;
     }
     Object.entries(sockets).forEach(([key, cs]) => {
@@ -27,10 +27,10 @@ server.on('connection', socket => {
     });
   });
 
-  socket.on('end', () => {
+  socket.on("end", () => {
     delete sockets[socket.id];
-    console.log('Client disconnected');
+    console.log(`Client ${socket.name} disconnected`);
   });
 });
 
-server.listen(8000, () => console.log('Server bound'));
+server.listen(8000, () => console.log("Server bound"));

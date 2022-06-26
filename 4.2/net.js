@@ -1,25 +1,26 @@
-const server = require('net').createServer();
+const server = require("net").createServer();
 let counter = 0;
 let sockets = {};
 
-server.on('connection', socket => {
+server.on("connection", (socket) => {
   socket.id = counter++;
   sockets[socket.id] = socket;
 
-  console.log('Client connected');
-  socket.write('Welcome new client!\n');
+  console.log(`Client ${socket.id} connected`);
+  socket.write("Welcome new client!\n");
 
-  socket.on('data', data => {
+  socket.on("data", (data) => {
     Object.entries(sockets).forEach(([, cs]) => {
       cs.write(`${socket.id}: `);
-      cs.write(data);
+      cs.write(data.toString());
     });
+    console.log(data.toString());
   });
 
-  socket.on('end', () => {
+  socket.on("end", () => {
+    console.log(`Client ${socket.id} disconnected`);
     delete sockets[socket.id];
-    console.log('Client disconnected');
   });
 });
 
-server.listen(8000, () => console.log('Server bound'));
+server.listen(8000, () => console.log("Server bound"));
