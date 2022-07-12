@@ -1,8 +1,8 @@
-const { Readable } = require('stream');
+const { Readable } = require("stream");
 
 // const inStream = new Readable();
-//
-// inStream.push('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
+// inStream.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 // inStream.push(null);
 
 const inStream = new Readable({
@@ -14,15 +14,13 @@ const inStream = new Readable({
       }
       this.push(String.fromCharCode(this.currentCharCode++));
     }, 100);
-  }
+  },
 });
 
 inStream.currentCharCode = 65;
 inStream.pipe(process.stdout);
 
-process.on('exit', () => {
-  console.error(
-    `\n\ncurrentCharCode is ${inStream.currentCharCode}`
-  );
+process.on("exit", () => {
+  console.error(`\n\ncurrentCharCode is ${inStream.currentCharCode}`);
 });
-process.stdout.on('error', process.exit);
+process.stdout.on("error", process.exit);
