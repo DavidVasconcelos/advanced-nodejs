@@ -1,8 +1,8 @@
-const { spawn } = require('child_process');
+const { spawn } = require("child_process");
 
-const child = spawn('node', ['timer.js'], {
+const child = spawn("node", ["timer.js"], {
   detached: true,
-  stdio: 'ignore'
+  stdio: "ignore",
 });
 
-child.unref();
+child.unref(); // ps -ef | grep timer
